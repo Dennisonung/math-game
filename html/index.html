@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    
+
     <title>bepic math game || DDC</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,8 @@
     <script src="/js/jquery.js"></script>
 
     <navbar class="top-container">
-        <a class="logo" href="https://ddc.gg/"><img class="logo-display" src="https://ddc.gg/res/img/ddclogonew.png" alt="logo"></a>
+        <a class="logo" href="https://ddc.gg/"><img class="logo-display" src="https://ddc.gg/res/img/ddclogonew.png"
+                alt="logo"></a>
         <nav>
             <ul class="nav__links">
                 <li><a href="https://ddc.gg/">Home</a></li>
@@ -56,17 +57,20 @@
         <input id="USERNAME" placeholder="Username"></input>
     </div>
 
-    <div style="width: 50%; padding: 10px" class="center">
+    <div style="width: 70%; padding: 10px" class="center">
         <a id="submitbutton" class="btn rwhite btn-front-index">Enter</a>
+        <a id="createlobby"  class="btn rwhite btn-front-index">CreateLobby</a>
+
     </div>
     <div style="padding:10%"> </div>
     <footer class="center" id="footer">
-        <img alt="DF Logo"class="center" src="https://ddc.gg/res/img/logowide-clear.png" style="width: 33%;">
-        <h5 class="FootText">Dennisonung's Development Center - <a href="https://ddc.gg/policies.php">Privacy Policy</a> - This website is still a work in progress.</h5>
+        <img alt="DF Logo" class="center" src="https://ddc.gg/res/img/logowide-clear.png" style="width: 33%;">
+        <h5 class="FootText">Dennisonung's Development Center - <a href="https://ddc.gg/policies.php">Privacy Policy</a>
+            - This website is still a work in progress.</h5>
     </footer>
 
     <script>
-        $(function() {
+        $(function () {
             $.ajaxSetup({
                 cache: false
             });
@@ -99,22 +103,46 @@
         //         },
         //         success: function(result) {
         //             $("#result").html(result);
-        //         }    
+        //         }
         //     });
         // });
     </script>
     <script>
         var socket = io("ws://localhost:8085");
 
-        $("#submitbutton").click(function() {
-            socket.emit("JoinGameLobby", {  
-                
-                Code: $("#CODE").val(),
-                username: $("#USERNAME").val()
-            });
+
+        $("#createlobby").click(function () {
+            var username = $("#USERNAME").val();
+            if (username == "") {
+                alert("Please enter a username");
+                return;
+            } else {
+                var GameInfo = {
+                    username: username
+                };
+                socket.emit("CreateGameLobby", GameInfo);
+            }
+
         });
-        
-        socket.on("Poggers", function(data) {
+        $("#submitbutton").click(function () {
+            if ($("#CODE").val() == "" || $("#USERNAME").val() == "") {
+                alert("Please fill in all fields");
+            } else {
+                socket.emit("JoinGameLobby", {
+                    Code: $("#CODE").val(),
+                    username: $("#USERNAME").val()
+                });
+            }
+        });
+
+        socket.on("FullGame", function (data) {
+            alert("Game is full");
+        });
+        socket.on("Error" , function(data){
+            alert(data);
+        });
+
+        socket.on("Poggers", function (data) {
             console.log(data);
         });
     </script>

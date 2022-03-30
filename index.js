@@ -3,6 +3,7 @@ const app = express();
 const http = require('http').Server(app);
 const cors = require('cors');
 var bodyParser = require('body-parser');
+const fs = require('fs');
 
 
 app.use(cors())
@@ -16,6 +17,9 @@ app.use(urlencodedParser)
 app.use(express.static(__dirname + '/html'));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/html/index.html');
+});
+app.get('/CreateLobby', (req, res) => {
+  res.sendFile(__dirname + '/html/CL.html');
 });
 
 function getRandomInt(max) {
@@ -145,13 +149,51 @@ io.on('connection', (socket) => {
     socket.on('JoinGameLobby', data => {
         console.log(data.Code)
         console.log(data.username)
+        var gameCode = data.Code;
+        var username = data.username;
+        if (fs.existsSync("./Lobbys/" + gameCode + ".json")) {
+            var game = JSON.parse(fs.readFileSync("./Lobbys/" + gameCode + ".json"));
+            if (game.gameStatus == "Active") {
+                if (game.Player2 == "") {
+                    game.Player2 = username;
+                    game.gameStatus = "InProgress";
+                    fs.writeFileSync("./Lobbys/" + gameCode + ".json", JSON.stringify(game));
+                    socket.emit('JoinedGameLobby', game);
+                } else {
+                    socket.emit('FullGame', "Game is full");
+                }
+            }
+        }
     });
 
+    socket.on("CreateGameLobby", data => {
+      try {
+          var game = {
+              "gameId": getRandomInt(100000),
+              "gameCode": MakeRandString(6),
+              "gameStatus": "Active",
+              "gameStartTime": Date.now(),
+              "gameEndTime": 0,
+              "Player1": "",
+              "Player2": "",
+              "RoundsCompleted": 0
+          }
 
+          var gamePacket = {
+              "gameId": game.gameId,
+              "gameCode": game.gameCode,
+          }
 
-
-
-
+          var gameCode = game.gameCode;
+          var gameId = game.gameId;
+          game.Player1 = data.username;
+          var options = { dotfiles: 'deny', headers: { 'x-sent': true } };
+          fs.writeFileSync("./Lobbys/" + gameCode + ".json", JSON.stringify(game));
+      } catch (err) {
+          console.log(err)
+          socket.emit("Error", "Internal Server Error")
+      }
+    })
 
     socket.on('disconnect', () => {
         console.log('user disconnected');
