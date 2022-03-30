@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    
+    <title>bepic math game || DDC</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://ddc.gg/res/css/Bootstrap.min.css">
+    <link rel="stylesheet" href="https://ddc.gg/res/css/style.css">
+    <link rel="stylesheet" href="https://ddc.gg/res/css/ScuffedFrame.css">
+    <link rel="stylesheet" href="https://ddc.gg/res/css/animate.css">
+    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="https://ddc.gg/res/css/header.css">
+    <link rel="stylesheet" href="https://ddc.gg/res/css/navbar.css">
+    <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Header.css">
+    <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Footer.css">
+    <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Extras.css">
+    <script src="https://ddc.gg/res/js/index.js"></script>
+    <script src="/socket.io/socket.io.js"> </script>
+    <script src="/js/jquery.js"></script>
+
+    <navbar class="top-container">
+        <a class="logo" href="https://ddc.gg/"><img class="logo-display" src="https://ddc.gg/res/img/ddclogonew.png" alt="logo"></a>
+        <nav>
+            <ul class="nav__links">
+                <li><a href="https://ddc.gg/">Home</a></li>
+                <li><a href="https://offs.ca/">Student Suite (OFFS.ca)</a></li>
+            </ul>
+        </nav>
+        <a class="cta" href="https://ddc.gg/contact.php">Contact</a>
+        <p class="menu cta">Menu</p>
+    </navbar>
+    <div class="overlay">
+        <a class="close">&times;</a>
+        <div class="overlay__content">
+            <a href="https://ddc.gg/">Home</a>
+            <a href="https://offs.ca/">OFFS.ca</a>
+        </div>
+    </div>
+    <script src="https://ddc.gg/res/js/mobile.js"></script>
+</head>
+
+<body>
+    <div style="padding:15px"></div>
+    <h1>Math CO-OP Game</h1>
+    <h4> by denny and johnny</h4>
+    <div>
+        <input id="CODE" placeholder="Code (6 Letters)"></input>
+    </div>
+    <div style="padding:5px"></div>
+    <div>
+        <input id="USERNAME" placeholder="Username"></input>
+    </div>
+
+    <div style="width: 50%; padding: 10px" class="center">
+        <a id="submitbutton" class="btn rwhite btn-front-index">Enter</a>
+    </div>
+    <div style="padding:10%"> </div>
+    <footer class="center" id="footer">
+        <img alt="DF Logo"class="center" src="https://ddc.gg/res/img/logowide-clear.png" style="width: 33%;">
+        <h5 class="FootText">Dennisonung's Development Center - <a href="https://ddc.gg/policies.php">Privacy Policy</a> - This website is still a work in progress.</h5>
+    </footer>
+
+    <script>
+        $(function() {
+            $.ajaxSetup({
+                cache: false
+            });
+            // on click, load the data dynamically into the #result div
+            // $("#loadbasic").click(function() {
+            //     $("#result").html(spinner).load(url);
+            // });
+        });
+    </script>
+
+    <script>
+        // $("#InputCode").onkeypress = function(e) {
+        //     var chr = String.fromCharCode(e.which);
+        //     if ("></\"".indexOf(chr) >= 0)
+        //         return false;
+        // };
+        // $("#InputUsername").onkeypress = function(e) {
+        //     var chr = String.fromCharCode(e.which);
+        //     if ("></\"".indexOf(chr) >= 0)
+        //         return false;
+        // };
+        // $("#CreateGame").click(function() {
+        //     var epicCode = $("#InputCode").val();
+        //     var username = $("#InputUsername").val();
+        //     $.ajax({
+        //         url: "CreateGame.php",
+        //         data: {
+        //             code: epicCode,
+        //             username: username
+        //         },
+        //         success: function(result) {
+        //             $("#result").html(result);
+        //         }    
+        //     });
+        // });
+    </script>
+    <script>
+        var socket = io("ws://localhost:8085");
+
+        $("#submitbutton").click(function() {
+            socket.emit("JoinGameLobby", {  
+                
+                Code: $("#CODE").val(),
+                username: $("#USERNAME").val()
+            });
+        });
+        
+        socket.on("Poggers", function(data) {
+            console.log(data);
+        });
+    </script>
+</body>
+
+</html>
