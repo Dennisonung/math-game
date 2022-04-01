@@ -30,6 +30,7 @@
             <ul class="nav__links">
                 <li><a href="https://ddc.gg/">Home</a></li>
                 <li><a href="https://offs.ca/">Student Suite (OFFS.ca)</a></li>
+                <li><a href="/wiki">Wiki</a></li>
             </ul>
         </nav>
         <a class="cta" href="https://ddc.gg/contact.php">Contact</a>
@@ -40,6 +41,7 @@
         <div class="overlay__content">
             <a href="https://ddc.gg/">Home</a>
             <a href="https://offs.ca/">OFFS.ca</a>
+            <a href="/wiki"> Wiki</a>
         </div>
     </div>
     <script src="https://ddc.gg/res/js/mobile.js"></script>
@@ -47,21 +49,61 @@
 
 <body>
     <div style="padding:15px"></div>
-    <h1>Math CO-OP Game</h1>
-    <h4> by denny and johnny</h4>
-    <div>
-        <input id="CODE" placeholder="Code (6 Letters)"></input>
-    </div>
-    <div style="padding:5px"></div>
-    <div>
-        <input id="USERNAME" placeholder="Username"></input>
+    <div id="StartLog">
+        <h1>Math CO-OP Game</h1>
+        <h4> by denny and johnny</h4>
+        <div class="row pr-5">
+            <div style="height:175px"class="col rounded ml-5 box-container-shadow">
+                <h4 style="padding-top: 10px;">Join Lobby</h4>
+                <input id="CODE" placeholder="Code (6 Letters)"></input>
+                <div style="padding:5px"></div>
+                <input id="USERNAME" placeholder="Username"></input>
+                <div style="width: 100%; position: absolute; bottom: 0; right:0" class="center">
+                    <a id="JoinLobby" class="btn rwhite">Join Lobby</a>
+                </div>
+            </div>
+            <div style="height:175px" class="col rounded ml-5 box-container-shadow">
+                <h4 style="padding-top: 10px;">Create Lobby</h4>
+                <div style="padding:5px"></div>
+                <input id="CreateLobbyUSERNAME" placeholder="Username"></input>
+                <div style="width: 100%; position: absolute; bottom: 0; right:0" class="center">
+                    <a id="createLobby" class="btn rwhite">Create Lobby</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div style="width: 70%; padding: 10px" class="center">
-        <a id="submitbutton" class="btn rwhite btn-front-index">Enter</a>
-        <a id="createlobby"  class="btn rwhite btn-front-index">CreateLobby</a>
-
+    <div id="Part2" style="display:none">
+        <h1>Game Lobby</h1>
+        <h3 id="P2GameCode">ERROR</h3>
+        <div class="row pr-5">
+            <div style="height:100px"class="col rounded ml-5 box-container-shadow">
+                <h2>Player 1</h2>
+                <h4 id="P2Player1">Player 1 (Error if you see this)</h4>
+            </div>
+            <div style="height:100px"class="col rounded ml-5 box-container-shadow">
+                <h2>Player 2</h2>
+                <h4 id="P2Player2">Player 2 (Not Joined)</h4>
+            </div>
+        </div>
     </div>
+
+    <div id="GameMaster" style="display: none; padding-top:15px">
+        <h4>You are the Game Master</h4>
+        <a id="StartGame" class="btn rwhite">Start Game</a>
+    </div>
+
+    <div id="game" style="display:none">
+        <h3>Round: ERROR</h3>
+    </div>
+        
+
+
+
+
+
+
+
     <div style="padding:10%"> </div>
     <footer class="center" id="footer">
         <img alt="DF Logo" class="center" src="https://ddc.gg/res/img/logowide-clear.png" style="width: 33%;">
@@ -108,11 +150,11 @@
         // });
     </script>
     <script>
-        var socket = io("ws://localhost:8085");
+        var socket = io("ws://10.117.161.84:8085");
 
 
-        $("#createlobby").click(function () {
-            var username = $("#USERNAME").val();
+        $("#createLobby").click(function () {
+            var username = $("#CreateLobbyUSERNAME").val();
             if (username == "") {
                 alert("Please enter a username");
                 return;
@@ -124,16 +166,51 @@
             }
 
         });
-        $("#submitbutton").click(function () {
+        
+        $("#JoinLobby").click(function () {
             if ($("#CODE").val() == "" || $("#USERNAME").val() == "") {
                 alert("Please fill in all fields");
             } else {
+                console.log("JoinLobby");
                 socket.emit("JoinGameLobby", {
                     Code: $("#CODE").val(),
                     username: $("#USERNAME").val()
                 });
             }
         });
+
+        $("#StartGame").click(function () {
+            socket.emit("StartGame", {
+                gameCode: $("#P2GameCode").text()
+            });
+        });
+
+        socket.on("JoinedGameLobby", function (data) {  
+            $("#StartLog").fadeOut();
+            $("#Part2").fadeIn();
+            $("#P2GameCode").html(data.gameCode);
+            $("#P2Player1").html(data.Player1);
+            $("#P2Player2").html(data.Player2);
+        })
+
+        socket.on("CreatedGameLobby", function (data) {
+            $("#StartLog").fadeOut();
+            $("#Part2").fadeIn();
+            $("#P2GameCode").html("Game Code: " + data.gameCode);
+            $("#P2Player1").html(data.Player1);
+            $("#P2Player2").html("Waiting for Player 2");
+        })
+
+        socket.on("GameMaster", function (data) {
+            $("#GameMaster").fadeIn();
+        })
+
+        socket.on("StartGameSuccess", function (data) {
+            $("#GameMaster").fadeOut();
+            $("#Part2").fadeOut();
+            $("#game").fadeIn();
+        })
+
 
         socket.on("FullGame", function (data) {
             alert("Game is full");
@@ -142,9 +219,6 @@
             alert(data);
         });
 
-        socket.on("Poggers", function (data) {
-            console.log(data);
-        });
     </script>
 </body>
 

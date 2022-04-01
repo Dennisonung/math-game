@@ -22,7 +22,7 @@ h4 {
 }
 
 .centercontentdiv {
-    display:flex;justify-content:center;align-items:center"
+    display:flex;justify-content:center;align-items:center;
 }
 
 .TXC {
@@ -52,4 +52,12 @@ h4 {
     .row-buttons-index {
         width:90%
     }
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-left: 0;
+    margin-right: 0;
 }

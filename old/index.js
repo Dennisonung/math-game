@@ -96,32 +96,6 @@ app.get("/api/mathgame/JoinGameLobby", function(req, res) {
     }
 });
 
-
-app.get("/api/mathgame/GetRandomNumber", function(req, res) {
-    console.log("API has been accessed from JoinGameLobby and the IP is " + req.ip);
-    try {
-        var gameCode = req.query.gameCode;
-        var username = req.query.username;
-        if (fs.existsSync("./Lobbys/" + gameCode + ".json")) {
-            var game = JSON.parse(fs.readFileSync("./Lobbys/" + gameCode + ".json"));
-            if (game.gameStatus == "Active") {
-                if (game.Player2 == "") {
-                    game.Player2 = username;
-                    game.gameStatus = "InProgress";
-                    fs.writeFileSync("./Lobbys/" + gameCode + ".json", JSON.stringify(game));
-                    res.send(JSON.stringify(game));
-                } else {
-                    res.send("Game is full");
-                }
-            }
-        }
-    } catch (err) {
-        console.log(err)
-        res.status(500).send("Internal Server Error")
-    }
-});
-
-
 app.get("/api/mathgame/GoToNextRound", function(req, res) {
     console.log("API has been accessed from GoToNextRound and the IP is " + req.ip);
     try {
