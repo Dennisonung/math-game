@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const http = require('http').Server(app);
+const http = require('https').Server(app);
 const cors = require('cors');
 var bodyParser = require('body-parser');
 const fs = require('fs');
