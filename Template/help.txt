@@ -1,0 +1,17 @@
+QuestionName is the funny math (1 + 1 = ?)
+OR 
+QuestionName is the other funny (If 45/60 equivilent to 3/x what is X?)
+"QuestionName": ""
+==========================================
+
+"QuestionType": NUMBER HERE
+1 = CO-OP (One player enters one fraction, other Player enters one fraction as well.)
+2 = Both players has to enter the same answer/number corrisponding to the questionName
+=================================================================================
+
+"WrongAnswers": [Number1, Number2, Number3]
+List the wrong answers if its a multiple choice questions, else leave this blank.
+=================================================
+"RightAnswer":""
+obvis the right answer is above
+

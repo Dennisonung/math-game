@@ -1,0 +1,6 @@
+{
+"QuestionName": "Addition of 3/5 and 2/8 is?",
+"QuestionType":"2",
+"Answers": ["16/20", "15/20", "19/20", "17/20"],  
+"RightAnswer": "17/20"
+}

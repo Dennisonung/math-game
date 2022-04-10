@@ -1,0 +1,6 @@
+{
+"QuestionName": "Which of the following is a not a proper fraction?",
+"QuestionType":"2",
+"Answers": ["2/3", "4/5", "9/10", "3/2"],  
+"RightAnswer": "3/2"
+}

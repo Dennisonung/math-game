@@ -38,89 +38,50 @@ function MakeRandString(length) {
     return result;
 }
 
-
-// Create Game
-app.post("/apiv1/mathgame/CreateGameLobby", function (req, res) {
-    console.log("API has been accessed from CreateGameLobby and the IP is " + req.ip);
-    try {
-        var game = {
-            "gameId": getRandomInt(100000),
-            "gameCode": MakeRandString(6),
-            "gameStatus": "Active",
-            "gameStartTime": Date.now(),
-            "gameEndTime": 0,
-            "Player1": "",
-            "Player2": "",
-            "RoundsCompleted": 0
-        }
-
-        var gamePacket = {
-            "gameId": game.gameId,
-            "gameCode": game.gameCode,
-        }
-
-        var gameCode = game.gameCode;
-        var gameId = game.gameId;
-        game.Player1 = req.body.Player1;
-        var options = { dotfiles: 'deny', headers: { 'x-sent': true } };
-        fs.writeFileSync("./Lobbys/" + gameCode + "/" + gameCode + ".json", JSON.stringify(game));
-        res.send(JSON.stringify(gamePacket), options, function (err) { if (err) { res.status(500).send("Internal Server Error"); console.log(err) } });
-    } catch (err) {
-        console.log(err)
-        res.status(500).send("Internal Server Error")
+function MRI1(length) {
+    var result = '';
+    var characters = '1234';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
     }
-});
+    return result;
+}
 
-
-app.get("/api/mathgame/JoinGameLobby", function (req, res) {
-    console.log("API has been accessed from JoinGameLobby and the IP is " + req.ip);
-    try {
-        var gameCode = req.query.gameCode;
-        var username = req.query.username;
-        if (fs.existsSync("./Lobbys/" + gameCode + ".json")) {
-            var game = JSON.parse(fs.readFileSync("./Lobbys/" + gameCode + ".json"));
-            if (game.gameStatus == "Active") {
-                if (game.Player2 == "") {
-                    game.Player2 = username;
-                    game.gameStatus = "InProgress";
-                    fs.writeFileSync("./Lobbys/" + gameCode + ".json", JSON.stringify(game));
-                    res.send(JSON.stringify(game));
-                } else {
-                    res.send("Game is full");
-                }
-            }
-        }
-    } catch (err) {
-        console.log(err)
-        res.status(500).send("Internal Server Error")
+function MRI2(length) {
+    var result = '';
+    var characters = '0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
     }
-});
+    return result;
+}
 
+function WTLGC(gameCode, game) {
+    fs.writeFileSync("./Lobbys/" + gameCode + "/metadata.json", JSON.stringify(game));
+}
 
-app.get("/api/mathgame/GoToNextRound", function (req, res) {
-    console.log("API has been accessed from GoToNextRound and the IP is " + req.ip);
-    try {
-        var gameCode = req.query.gameCode;
-        var username = req.query.username;
-        if (fs.existsSync("./Lobbys/" + gameCode + ".json")) {
-            var game = JSON.parse(fs.readFileSync("./Lobbys/" + gameCode + ".json"));
-            if (game.gameStatus == "Active") {
-                if (game.Player2 == "") {
-                    game.Player2 = username;
-                    game.gameStatus = "Ready";
-                    fs.writeFileSync("./Lobbys/" + gameCode + "/metadata.json", JSON.stringify(game));
-                    res.send(JSON.stringify(game));
-                } else {
-                    res.send("Game is full");
-                }
-            }
-        }
-    } catch (err) {
-        console.log(err)
-        res.status(500).send("Internal Server Error")
+function ReRoll(game) {
+    var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    //Randomly pick a number from the array
+    var randomNumber = numbers[Math.floor(Math.random() * numbers.length)];
+    //Check if the number has been played
+    if (game.PlayedQuestions.includes(randomNumber)) {
+        //If it has been played, run the function again
+        ReRoll(game);
     }
-});
+    else {
+        //If it hasn't been played, return the number
+        return randomNumber;
+    }  
+}
+
+
 io.on('connection', (socket) => {
+
     socket.on('JoinGameLobby', data => {
         console.log("JoinGameLobby function has Started");
         try {
@@ -139,7 +100,7 @@ io.on('connection', (socket) => {
                             "Player2": data.username
                         }
                         io.to(game.P1SocketID).emit('GameMaster', gamePacket);
-                        fs.writeFileSync("./Lobbys/" + gameCode + "/metadata.json", JSON.stringify(game));
+                        WTLGC(game.gameCode, game);
                         socket.join(gameCode);
                         io.to(gameCode).emit('JoinedGameLobby', gamePacket);
                         console.log("JoinGameLobby Function has Finished Successfully");
@@ -167,9 +128,16 @@ io.on('connection', (socket) => {
                 "gameEndTime": 0,
                 "Player1": "",
                 "Player2": "",
-                "RoundsCompleted": 0,
+                "CurrentRound": 0,
                 "P1SocketID": socket.id,
-                "P2SocketID": ""
+                "P2SocketID": "",
+                "P1Score": 0,
+                "P2Score": 0,
+                "PlayedQuestions": [1],
+                "P1Answered": false,
+                "P2Answered": false,
+                "P1Correct": false,
+                "P2Correct": false,
             }
 
             var gamePacket = {
@@ -183,7 +151,7 @@ io.on('connection', (socket) => {
             game.Player1 = data.username;
             var options = { dotfiles: 'deny', headers: { 'x-sent': true } };
             fs.mkdirSync("./Lobbys/" + gameCode);
-            fs.writeFileSync("./Lobbys/" + gameCode + "/metadata.json", JSON.stringify(game));
+            WTLGC(gameCode, game);
             socket.join(gameCode);
             socket.emit('CreatedGameLobby', gamePacket);
             console.log("CreatedGameLobby Function has Finished Successfully");
@@ -201,21 +169,32 @@ io.on('connection', (socket) => {
                 var game = JSON.parse(fs.readFileSync("./Lobbys/" + gameCode + "/metadata.json"));
                 if (socket.id == game.P1SocketID) {
                     game.gameStatus = "InProgress";
-                    fs.writeFileSync("./Lobbys/" + gameCode + "/metadata.json", JSON.stringify(game));
-                    io.to(gameCode).emit('StartGameSuccess', game);
+                    game.CurrentRound = 1;
+                    WTLGC(gameCode, game);
+                    var gamePacket = {
+                        "gameId": game.gameId,
+                        "gameCode": game.gameCode,
+                        "round": game.CurrentRound,
+                        "Player1": game.Player1,
+                        "Player2": game.Player2
+                    }
+                    io.to(gameCode).emit('StartGameSuccess', gamePacket);
+                    var RandomNumber = getRandomInt(11);
+                    var Tutorial = JSON.parse(fs.readFileSync("./questions/1.json"));
+                    var TutorialPacket = {
+                        "gameId": game.gameId,
+                        "gameCode": game.gameCode,
+                        "id": 1,
+                        "QuestionName": Tutorial.QuestionName,
+                        "QuestionType": Tutorial.QuestionType,
+                        "Answers": Tutorial.Answers,
+                    }
+                    io.to(gameCode).emit('TutorialQuestion', TutorialPacket);
                     console.log("StartGame Function has Finished Successfully");
                 } else {
                     socket.emit("Error", "You are not the Game Master");
 
                 }
-                // if (game.gameStatus == "InProgress") {
-                //     game.gameStatus = "Active";
-                //     game.gameStartTime = Date.now();
-                //     fs.writeFileSync("./Lobbys/" + gameCode + "/metadata.json", JSON.stringify(game));
-                //     socket.join(gameCode);
-                //     io.to(gameCode).emit('StartGame', game);
-                //     console.log("StartGame Function has Finished Successfully");
-                // }
             }
         } catch (err) {
             console.log(err)
@@ -223,15 +202,104 @@ io.on('connection', (socket) => {
         }
     })
 
-    socket.on("GoToNextRound", data => {
+    socket.on("NextGameRound", data => {
+        const game = fs.readFileSync("./Lobbys/" + data.gameCode + "/metadata.json");
+        const gameData = JSON.parse(game);
+        var gamepacket = {
+            "gameId": data.gameId,
+            "gameCode": data.gameCode,
+            "round": data.round,
+        }
+        
     })
+
 
 
     socket.on("submitAnswer", data => {
         console.log("submitAnswer Function has started");
         try {
+            var gameCode = data.gameCode;
+            if (fs.existsSync("./Lobbys/" + gameCode + "/metadata.json")) {
+                var game = JSON.parse(fs.readFileSync("./Lobbys/" + gameCode + "/metadata.json"));
+                game.PlayedQuestions.push(data.id);
+                var FinishedQuestion = JSON.parse(fs.readFileSync("./questions/" + data.id + ".json"));
+                var NewQuestionNumber = ReRoll(game);
+                var NewQuestion = JSON.parse(fs.readFileSync("./questions/" + NewQuestionNumber + ".json"));
+                var NewQuestionPacket = {
+                    "gameId": game.gameId,
+                    "gameCode": game.gameCode,
+                    "id": NewQuestionNumber,
+                    "QuestionName": NewQuestion.QuestionName,
+                    "QuestionType": NewQuestion.QuestionType,
+                    "Answers": NewQuestion.Answers,
+                    "Player1Score": game.P1Score,
+                    "Player2Score": game.P2Score,
+                }
+                if (socket.id == game.P1SocketID) {
+                    if (FinishedQuestion.RightAnswer == data.answer) {
+                        game.P1Score += 1;
+                        game.P1Answered = true;
+                        game.P1Correct = true;
+                        WTLGC(gameCode, game);
+                        if (game.P2Answered == true) {
+                            game.P2Answered = false;
+                            game.P2Correct = false;
+                            game.P1Answered = false;
+                            game.P1Correct = false;
+                            WTLGC(gameCode, game);
+                            io.to(gameCode).emit('NextQuestion', NewQuestionPacket);
+                        }
+
+                    } else {
+                        game.P1Answered = true;
+                        game.P1Correct = false;
+                        WTLGC(gameCode, game);
+                        if (game.P2Answered == true) {
+                            game.P2Answered = false;
+                            game.P2Correct = false;
+                            game.P1Answered = false;
+                            game.P1Correct = false;
+                            WTLGC(gameCode, game);
+                            io.to(gameCode).emit('NextQuestion', NewQuestionPacket);
+                        }
+                    }
+                } else if (socket.id == game.P2SocketID) {
+                    if (FinishedQuestion.RightAnswer == data.answer) {
+                        game.P2Score++;
+                        game.P2Answered = true;
+                        game.P2Correct = true;
+                        WTLGC(gameCode, game);
+                        if (game.P1Answered == true) {
+                            game.P2Answered = false;
+                            game.P2Correct = false;
+                            game.P1Answered = false;
+                            game.P1Correct = false;
+                            WTLGC(gameCode, game);
+                            io.to(gameCode).emit('NextGameRound', NewQuestionPacket);
+                        }
+                    } else {
+                        game.P2Answered = true;
+                        game.P2Correct = false;
+                        WTLGC(gameCode, game);
+                        if (game.P1Answered == true) {
+                            game.P2Answered = false;
+                            game.P2Correct = false;
+                            game.P1Answered = false;
+                            game.P1Correct = false;
+                            WTLGC(gameCode, game);
+                            io.to(gameCode).emit('NextGameRound', NewQuestionPacket);
+                        }
+                    }
+                } else {
+                    socket.emit("Error", "You are not in this game");
+                }
 
 
+                
+            
+            } else {
+                socket.emit("Error", "Game does not exist");
+            }
             console.log("submitAnswer Function has Finished Successfully");
         } catch (err) {
             console.log(err)

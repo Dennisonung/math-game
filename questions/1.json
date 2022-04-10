@@ -1,0 +1,7 @@
+{
+    "QuestionName": "If 45/60 is equivilent to 3/x, what is X?", 
+    "QuestionType":"2",
+    "Answers": ["6","5","10","4"],       
+    "RightAnswer": "4"
+}
+   

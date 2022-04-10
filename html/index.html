@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Header.css">
     <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Footer.css">
     <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Extras.css">
+    <link rel="stylesheet" href="animate.css">
     <script src="https://ddc.gg/res/js/index.js"></script>
     <script src="/socket.io/socket.io.js"> </script>
     <script src="/js/jquery.js"></script>
@@ -47,13 +48,13 @@
     <script src="https://ddc.gg/res/js/mobile.js"></script>
 </head>
 
-<body>
+<body onload="">
     <div style="padding:15px"></div>
     <div id="StartLog">
         <h1>Math CO-OP Game</h1>
         <h4> by denny and johnny</h4>
         <div class="row pr-5">
-            <div style="height:175px"class="col rounded ml-5 box-container-shadow">
+            <div style="height:175px" class="col rounded ml-5 box-container-shadow">
                 <h4 style="padding-top: 10px;">Join Lobby</h4>
                 <input id="CODE" placeholder="Code (6 Letters)"></input>
                 <div style="padding:5px"></div>
@@ -77,11 +78,11 @@
         <h1>Game Lobby</h1>
         <h3 id="P2GameCode">ERROR</h3>
         <div class="row pr-5">
-            <div style="height:100px"class="col rounded ml-5 box-container-shadow">
+            <div style="height:100px" class="col rounded ml-5 box-container-shadow">
                 <h2>Player 1</h2>
                 <h4 id="P2Player1">Player 1 (Error if you see this)</h4>
             </div>
-            <div style="height:100px"class="col rounded ml-5 box-container-shadow">
+            <div style="height:100px" class="col rounded ml-5 box-container-shadow">
                 <h2>Player 2</h2>
                 <h4 id="P2Player2">Player 2 (Not Joined)</h4>
             </div>
@@ -93,10 +94,110 @@
         <a id="StartGame" class="btn rwhite">Start Game</a>
     </div>
 
-    <div id="game" style="display:none">
-        <h3>Round: ERROR</h3>
+    <div id="game" style="display:none;">
+        <h3 style="padding-bottom:10px" id="gameRoundCounter">Round: ERROR</h3>
+        <div class="row "><h6 id="QuestionID">QID: </h6><h6 id="QuestionID"> </h6></div>
+
+        <div style="display: grid;
+            place-items: center">
+                <div class="row center">
+                    <div class="col-2">
+                        <h4 id="Player1">Player 1</h4>
+                        
+                    </div>
+
+                    <div class="col-2">
+                        <h4 id="Player1Score">0</h4>
+                    </div>
+                    
+
+                    <div class="col-2">
+                        <h4 id="Player2">Player 2</h4>
+                    </div>
+
+                    <div class="col-2">
+                        <h4 id="Player2Score">0</h4>
+                    </div>
+                </div>
+            </div>
+        <div style="height:200px; width:75%; display: block;margin-left: auto;margin-right: auto;"
+            class="rounded box-container-shadow">
+
+            <div id="GAME1" style="display:none">
+                <div style="padding-top:5px"></div>
+                <h3 id="GAME1QuestionName">QUESTION ERROR</h3>
+                <h5>Make the Number: ERR</h5>
+                <div style="padding-bottom:10px" class="row pr-5">
+                    <div id="G1Player1Input" style="display:none;">
+                        <input id="G1Player1Input"></input>
+                        <h2 id="G1MathThingy">+</h2>
+                        <p id="G1Player2P1Num">1</p>
+                        <h2>=</h2>
+                        <h2 id="G1Answer">ERROR</h2>
+                        <a id="G1Player1Submit" class="btn rwhite">Submit</a>
+                    </div>
+                    <div id="G1Player2Input" style="display:none;">
+                        <p id="G1Player1P2Num">1</p>
+                        <h2 id="G1MathThingy">+</h2>
+                        <input id="G1Player2Input"></input>
+                        <h2>=</h2>
+                        <h2 id="G1Answer">ERROR</h2>
+                        <a id="G1Player2Submit" class="btn rwhite">Submitd</a>
+                    </div>
+                </div>
+            </div>
+            <div id="GAME2" style="display:none;">
+                <div style="padding-top:5px"></div>
+                <h3 id="GAME2QuestionName">QUESTION ERROR</h3>
+                <div style="padding-bottom:10px" class="row pr-5">
+                    <div id="GAME2Answer1" class="questionButton col rounded ml-5 box-container-shadow">
+                        <h4 style="padding-top: 10px;">Answer 1</h4>
+                    </div>
+                    <div id="GAME2Answer2" class="questionButton col rounded ml-5 box-container-shadow">
+                        <h4 style="padding-top: 10px;">Answer 2</h4>
+                    </div>
+                </div>
+                <div class="row pr-5">
+                    <div id="GAME2Answer3" class="questionButton col rounded ml-5 box-container-shadow">
+                        <h4 style="padding-top: 10px;">Answer 3</h4>
+                    </div>
+
+                    <div id="GAME2Answer4" class="questionButton col rounded ml-5 box-container-shadow">
+                        <h4 style="padding-top: 10px;">Answer 4</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div id="Tutorial" style="display: none;">
+                <div style="padding-top:5px"></div>
+                <h3 id="TutorialQuestion">QUESTION ERROR</h3>
+                <div style="padding-bottom:10px" class="row pr-5">
+                    <div id="TutorialAnswer1" class="questionButton col rounded ml-5 box-container-shadow">
+                        <h4 style="padding-top: 10px;">Answer 1</h4>
+                    </div>
+                    <div id="TutorialAnswer2" class="questionButton col rounded ml-5 box-container-shadow">
+                        <h4 style="padding-top: 10px;">Answer 2</h4>
+                    </div>
+                </div>
+                <div class="row pr-5">
+                    <div id="TutorialAnswer3" class="questionButton col rounded ml-5 box-container-shadow">
+                        <h4 style="padding-top: 10px;">Answer 3</h4>
+                    </div>
+
+                    <div id="TutorialAnswer4" class="questionButton col rounded ml-5 box-container-shadow">
+                        <h4 style="padding-top: 10px;">Answer 4</h4>
+                    </div>
+                </div>
+            </div>
+            <div id="WaitingText" style="display:none;">
+                <h1>Waiting on Other Player</h1>
+            </div>
+            <div id="WaitingText2" style="display:none;">
+                <h1>Loading...</h1>
+            </div>
+        </div>
     </div>
-        
+
 
 
 
@@ -110,116 +211,221 @@
         <h5 class="FootText">Dennisonung's Development Center - <a href="https://ddc.gg/policies.php">Privacy Policy</a>
             - This website is still a work in progress.</h5>
     </footer>
-
-    <script>
-        $(function () {
-            $.ajaxSetup({
-                cache: false
-            });
-            // on click, load the data dynamically into the #result div
-            // $("#loadbasic").click(function() {
-            //     $("#result").html(spinner).load(url);
-            // });
-        });
-    </script>
-
-    <script>
-        // $("#InputCode").onkeypress = function(e) {
-        //     var chr = String.fromCharCode(e.which);
-        //     if ("></\"".indexOf(chr) >= 0)
-        //         return false;
-        // };
-        // $("#InputUsername").onkeypress = function(e) {
-        //     var chr = String.fromCharCode(e.which);
-        //     if ("></\"".indexOf(chr) >= 0)
-        //         return false;
-        // };
-        // $("#CreateGame").click(function() {
-        //     var epicCode = $("#InputCode").val();
-        //     var username = $("#InputUsername").val();
-        //     $.ajax({
-        //         url: "CreateGame.php",
-        //         data: {
-        //             code: epicCode,
-        //             username: username
-        //         },
-        //         success: function(result) {
-        //             $("#result").html(result);
-        //         }
-        //     });
-        // });
-    </script>
-    <script>
-        var socket = io("ws://10.117.161.84:8085");
-
-
-        $("#createLobby").click(function () {
-            var username = $("#CreateLobbyUSERNAME").val();
-            if (username == "") {
-                alert("Please enter a username");
-                return;
-            } else {
-                var GameInfo = {
-                    username: username
-                };
-                socket.emit("CreateGameLobby", GameInfo);
+        <script>
+            var socket = io("ws://localhost:8085");
+            function Wait(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            function MRI1(length) {
+                var result = '';
+                var characters = '1234';
+                var charactersLength = characters.length;
+                for (var i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() *
+                        charactersLength));
+                }
+                return result;
             }
 
-        });
-        
-        $("#JoinLobby").click(function () {
-            if ($("#CODE").val() == "" || $("#USERNAME").val() == "") {
-                alert("Please fill in all fields");
-            } else {
-                console.log("JoinLobby");
-                socket.emit("JoinGameLobby", {
-                    Code: $("#CODE").val(),
-                    username: $("#USERNAME").val()
+            $("#createLobby").click(function () {
+                var username = $("#CreateLobbyUSERNAME").val();
+                if (username == "") {
+                    alert("Please enter a username");
+                    return;
+                } else {
+                    var GameInfo = {
+                        username: username
+                    };
+                    socket.emit("CreateGameLobby", GameInfo);
+                }
+
+            });
+
+            $("#JoinLobby").click(function () {
+                if ($("#CODE").val() == "" || $("#USERNAME").val() == "") {
+                    alert("Please fill in all fields");
+                } else {
+                    console.log("JoinLobby");
+                    socket.emit("JoinGameLobby", {
+                        Code: $("#CODE").val(),
+                        username: $("#USERNAME").val()
+                    });
+
+                }
+            });
+
+            $("#StartGame").click(function () {
+                socket.emit("StartGame", {
+                    gameCode: $("#P2GameCode").text()
                 });
-            }
-        });
-
-        $("#StartGame").click(function () {
-            socket.emit("StartGame", {
-                gameCode: $("#P2GameCode").text()
             });
-        });
 
-        socket.on("JoinedGameLobby", function (data) {  
-            $("#StartLog").fadeOut();
-            $("#Part2").fadeIn();
-            $("#P2GameCode").html(data.gameCode);
-            $("#P2Player1").html(data.Player1);
-            $("#P2Player2").html(data.Player2);
-        })
+            $("#GAME2Answer1").click(function () {
+                socket.emit("submitAnswer", {
+                    gameCode: $("#P2GameCode").text(),
+                    answer: $("#GAME2Answer1").children("h4").text(),
+                    id: $("#QuestionID").text()
+                });
+                $("#GAME2").fadeOut();
+                $("#WaitingText").fadeIn();
 
-        socket.on("CreatedGameLobby", function (data) {
-            $("#StartLog").fadeOut();
-            $("#Part2").fadeIn();
-            $("#P2GameCode").html("Game Code: " + data.gameCode);
-            $("#P2Player1").html(data.Player1);
-            $("#P2Player2").html("Waiting for Player 2");
-        })
+            });
+            $("#GAME2Answer2").click(function () {
+                socket.emit("submitAnswer", {
+                    gameCode: $("#P2GameCode").text(),
+                    answer: $("#GAME2Answer2").children("h4").text(),
+                    id: $("#QuestionID").text()
+                });
+                $("#GAME2").fadeOut();
+                $("#WaitingText").fadeIn();
+            });
+            $("#GAME2Answer3").click(function () {
+                socket.emit("submitAnswer", {
+                    gameCode: $("#P2GameCode").text(),
+                    answer: $("#GAME2Answer3").children("h4").text(),
+                    id: $("#QuestionID").text()
+                });
+                $("#GAME2").fadeOut();
+                $("#WaitingText").fadeIn();
+            });
+            $("#GAME2Answer4").click(function () {
+                socket.emit("submitAnswer", {
+                    gameCode: $("#P2GameCode").text(),
+                    answer: $("#GAME2Answer4").children("h4").text(),
+                    id: $("#QuestionID").text()
+                });
+                $("#GAME2").fadeOut();
+                $("#WaitingText").fadeIn();
+            });
 
-        socket.on("GameMaster", function (data) {
-            $("#GameMaster").fadeIn();
-        })
+            $("#TutorialAnswer1").click(function () {
+                socket.emit("submitAnswer", {
+                    gameCode: $("#P2GameCode").text(),
+                    answer: $("#TutorialAnswer1").children("h4").text(),
+                    id: $("#QuestionID").text()
+                });
+                $("#Tutorial").hide();
+                $("#WaitingText").fadeIn();
+            });
+            $("#TutorialAnswer2").click(function () {
+                socket.emit("submitAnswer", {
+                    gameCode: $("#P2GameCode").text(),
+                    answer: $("#TutorialAnswer2").children("h4").text(),
+                    id: $("#QuestionID").text()
+                });
+                $("#Tutorial").hide();
+                $("#WaitingText").fadeIn();
+            });
+            $("#TutorialAnswer3").click(function () {
+                socket.emit("submitAnswer", {
+                    gameCode: $("#P2GameCode").text(),
+                    answer: $("#TutorialAnswer3").children("h4").text(),
+                    id: $("#QuestionID").text()
+                });
+                $("#Tutorial").hide();
+                $("#WaitingText").fadeIn();
+            });
+            $("#TutorialAnswer4").click(function () {
+                socket.emit("submitAnswer", {
+                    gameCode: $("#P2GameCode").text(),
+                    answer: $("#TutorialAnswer4").children("h4").text(),
+                    id: $("#QuestionID").text()
+                });
+                $("#Tutorial").hide();
+                $("#WaitingText").fadeIn();
+            });
 
-        socket.on("StartGameSuccess", function (data) {
-            $("#GameMaster").fadeOut();
-            $("#Part2").fadeOut();
-            $("#game").fadeIn();
-        })
+
+            socket.on("JoinedGameLobby", function (data) {
+                $("#StartLog").fadeOut();
+                $("#Part2").fadeIn();
+                $("#P2GameCode").html(data.gameCode);
+                $("#P2Player1").html(data.Player1);
+                $("#P2Player2").html(data.Player2);
+                $("#Player1").text(data.Player1 + ": ");
+                $("#Player2").text(data.Player2 + ": ");
+            }) 
+
+            socket.on("CreatedGameLobby", function (data) {
+                $("#StartLog").fadeOut();
+                $("#Part2").fadeIn();
+                $("#P2GameCode").html("Game Code: " + data.gameCode);
+                $("#P2Player1").html(data.Player1);
+                $("#P2Player2").html("Waiting for Player 2");
+            })
+
+            socket.on("GameMaster", function (data) {
+                $("#GameMaster").fadeIn();
+            })
+
+            socket.on("StartGameSuccess", function (data) {
+                $("#GameMaster").fadeOut();
+                $("#Part2").fadeOut();
+                $("#game").fadeIn();
+                $("#gameRoundCounter").html("Round: " + data.round);
+                $("#GAME1").fadeOut();
+                $("GAME2").fadeIn();
+                $("#GAME2QuestionName").html(data.question);
+                $("#GAME2Answer1").html(data.answer1);
+                $("#GAME2Answer2").html(data.answer2);
+                $("#GAME2Answer3").html(data.answer3);
+                $("#GAME2Answer4").html(data.answer4);
+            })
 
 
-        socket.on("FullGame", function (data) {
-            alert("Game is full");
-        });
-        socket.on("Error" , function(data){
-            alert(data);
-        });
+            socket.on("NextGameRound", function (data) {
+                $("#gameRoundCounter").html("Round: " + data.round);
+                try {
+                if (data.QuestionType == 1) {
+                    $("#GAME2").fadeOut();
+                    $("#GAME1").fadeIn();
+                    $("#GAME1QuestionName").html(data.QuestionName);
+                    $("#GAME1Answer1").html(data.Answer1);
+                } else if (data.QuestionType == 2) {
+                    $("#GAME1").fadeOut();
+                    $("#GAME2").fadeIn();
+                    $("#WaitingText").fadeOut();
+                    $("#GAME2QuestionName").html(data.QuestionName);
+                    $("#GAME2Answer1").children("h4").text(data.Answers[0]);
+                    $("#GAME2Answer2").children("h4").text(data.Answers[1]);
+                    $("#GAME2Answer3").children("h4").text(data.Answers[2]);
+                    $("#GAME2Answer4").children("h4").text(data.Answers[3]);
+                    console.log(`Scores below \n Player1: ${data.Player1Score} \n Player2: ${data.Player2Score}` )
+                    $("Player1Score").text(data.Player1Score);
+                    $("Player2Score").text(data.Player2Score);
 
-    </script>
+                } 
+                } catch(e) {
+                    $("#GAME1").fadeOut();
+                    $("#GAME2").fadeOut();
+                    alert("Something went wrong...")
+                    console.log(e);
+                }
+            })
+
+            socket.on("TutorialQuestion", function (data) {
+
+                $("#QuestionID").html(data.id);
+                $("#WaitingText2").fadeIn();
+                Wait(500);
+                $("#WaitingText2").fadeOut();
+                $("#Tutorial").fadeIn();
+                $("#TutorialQuestion").html(data.QuestionName);
+                $("#TutorialAnswer1").children("h4").text(data.Answers[0]);
+                $("#TutorialAnswer2").children("h4").text(data.Answers[1]);
+                $("#TutorialAnswer3").children("h4").text(data.Answers[2]);
+                $("#TutorialAnswer4").children("h4").text(data.Answers[3]);
+            })
+
+
+            socket.on("FullGame", function (data) {
+                alert("Game is full");
+            });
+            socket.on("Error", function (data) {
+                alert(data);
+            });
+
+        </script>
 </body>
 
 </html>

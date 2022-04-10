@@ -61,3 +61,16 @@ h4 {
     margin-left: 0;
     margin-right: 0;
 }
+
+.questionButton {
+    border: black solid 1px;
+    transition: 0.7s;
+    
+}
+
+.questionButton:hover {
+    background-color: black;
+    color: white;
+    width: 200%;
+    height: 200%;
+}

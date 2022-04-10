@@ -1,0 +1,6 @@
+{
+    "QuestionName": "How would you write 12/18 in its simplest form?",
+    "QuestionType":"2",
+    "Answers": ["3/4", "1/3", "5/10", "2/3"],  
+    "RightAnswer": "2/3"
+}

@@ -1,0 +1,6 @@
+{
+"QuestionName": "Decimal number 0.95 is equivalent to",
+"QuestionType":"2",
+"Answers": ["18/25", "19/25", "18/20", "19/20"],
+"RightAnswer": "19/20"
+}
