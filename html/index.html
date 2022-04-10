@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Header.css">
     <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Footer.css">
     <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Extras.css">
-    <link rel="stylesheet" href="animate.css">
+    <link rel="stylesheet" href="/animate.css">
     <script src="https://ddc.gg/res/js/index.js"></script>
     <script src="/socket.io/socket.io.js"> </script>
     <script src="/js/jquery.js"></script>
@@ -51,14 +51,14 @@
 <body onload="">
     <div style="padding:15px"></div>
     <div id="StartLog">
-        <h1>Math CO-OP Game</h1>
+        <h1 class="animate__animated animate__fadeInUp">Math CO-OP Game</h1>
         <h4> by denny and johnny</h4>
         <div class="row pr-5">
             <div style="height:175px" class="col rounded ml-5 box-container-shadow">
                 <h4 style="padding-top: 10px;">Join Lobby</h4>
-                <input id="CODE" placeholder="Code (6 Letters)"></input>
+                <input id="CODE" class="EpicInput"placeholder="Code (6 Letters)"></input>
                 <div style="padding:5px"></div>
-                <input id="USERNAME" placeholder="Username"></input>
+                <input class="EpicInput" id="USERNAME" placeholder="Username"></input>
                 <div style="width: 100%; position: absolute; bottom: 0; right:0" class="center">
                     <a id="JoinLobby" class="btn rwhite">Join Lobby</a>
                 </div>
@@ -66,7 +66,7 @@
             <div style="height:175px" class="col rounded ml-5 box-container-shadow">
                 <h4 style="padding-top: 10px;">Create Lobby</h4>
                 <div style="padding:5px"></div>
-                <input id="CreateLobbyUSERNAME" placeholder="Username"></input>
+                <input class="EpicInput" id="CreateLobbyUSERNAME" placeholder="Username"></input>
                 <div style="width: 100%; position: absolute; bottom: 0; right:0" class="center">
                     <a id="createLobby" class="btn rwhite">Create Lobby</a>
                 </div>
@@ -191,6 +191,7 @@
             </div>
             <div id="WaitingText" style="display:none;">
                 <h1>Waiting on Other Player</h1>
+                <img style="width:75px"alt="LoadingGIF"src="https://c.tenor.com/On7kvXhzml4AAAAi/loading-gif.gif">
             </div>
             <div id="WaitingText2" style="display:none;">
                 <h1>Loading...</h1>
@@ -200,10 +201,17 @@
 
 
 
-
-
-
-
+    <div style="padding:1%"> </div>
+    <div style="width:500px;height:200px"class="box-container-shadow center">
+        <br>
+        <h1>Options/Other</h1>
+        <a id="PlayMusicButton" style="color:white"class="btn rblue">Play Music</a>
+        <a href="/wiki" style="color:white"class="btn rblue">Wiki</a>
+        <audio id="audioMusic"loop autoplay>
+            <source id="audioSource"src="TAYMSC.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
 
     <div style="padding:10%"> </div>
     <footer class="center" id="footer">
@@ -212,7 +220,15 @@
             - This website is still a work in progress.</h5>
     </footer>
         <script>
-            var socket = io("ws://localhost:8085");
+            $(document).ready(function() {
+                $("#PlayMusicButton").click(function() {
+                    $("#audioMusic").volume = 0.5;
+                    $("#audioMusic").trigger('play');
+                    // $("audioSource").attr("src", "TAYMSC.mp3");
+                });
+            });
+
+            var socket = io("ws://math.ddc.gg");
             function Wait(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
