@@ -3,8 +3,8 @@ const app = express();
 const fs = require('fs');
 
 const options = {
-    key: fs.readFileSync('privkey.pem'),
-    cert: fs.readFileSync('fullchain.pem')
+    key: fs.readFileSync('certs/privkey.pem'),
+    cert: fs.readFileSync('certs/fullchain.pem')
   };
 const http = require('https').createServer(option, app);
 const cors = require('cors');
