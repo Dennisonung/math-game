@@ -6,7 +6,7 @@ const options = {
     key: fs.readFileSync('privkey.pem'),
     cert: fs.readFileSync('fullchain.pem')
   };
-const http = require('https').Server(options, app);
+const http = require('http').Server(app);
 const cors = require('cors');
 var bodyParser = require('body-parser');
 
