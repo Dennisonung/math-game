@@ -51,12 +51,12 @@
 <body onload="">
     <div style="padding:15px"></div>
     <div id="StartLog">
-        <h1 class="animate__animated animate__fadeInUp">Math CO-OP Game</h1>
-        <h4> by denny and johnny</h4>
+        <h1 class="animate__animated animate__fadeInUp">Math  Game</h1>
+        <h4 class="animate__animated animate__fadeInUp"> by denny and johnny</h4>
         <div class="row pr-5">
             <div style="height:175px" class="col rounded ml-5 box-container-shadow">
                 <h4 style="padding-top: 10px;">Join Lobby</h4>
-                <input id="CODE" class="EpicInput"placeholder="Code (6 Letters)"></input>
+                <input id="CODE" class="EpicInput" placeholder="Code (6 Letters)"></input>
                 <div style="padding:5px"></div>
                 <input class="EpicInput" id="USERNAME" placeholder="Username"></input>
                 <div style="width: 100%; position: absolute; bottom: 0; right:0" class="center">
@@ -96,30 +96,33 @@
 
     <div id="game" style="display:none;">
         <h3 style="padding-bottom:10px" id="gameRoundCounter">Round: ERROR</h3>
-        <div class="row "><h6 id="QuestionID">QID: </h6><h6 id="QuestionID"> </h6></div>
+        <div class="row ">
+            <h6 id="">QID: </h6>
+            <h6 id="QuestionID"> </h6>
+        </div>
 
         <div style="display: grid;
             place-items: center">
-                <div class="row center">
-                    <div class="col-2">
-                        <h4 id="Player1">Player 1</h4>
-                        
-                    </div>
+            <div class="row center">
+                <div class="col-2">
+                    <h4 id="Player1">Player 1</h4>
 
-                    <div class="col-2">
-                        <h4 id="Player1Score">0</h4>
-                    </div>
-                    
+                </div>
 
-                    <div class="col-2">
-                        <h4 id="Player2">Player 2</h4>
-                    </div>
+                <div class="col-2">
+                    <h4 id="Player1Score">0</h4>
+                </div>
 
-                    <div class="col-2">
-                        <h4 id="Player2Score">0</h4>
-                    </div>
+
+                <div class="col-2">
+                    <h4 id="Player2">Player 2</h4>
+                </div>
+
+                <div class="col-2">
+                    <h4 id="Player2Score">0</h4>
                 </div>
             </div>
+        </div>
         <div style="height:200px; width:75%; display: block;margin-left: auto;margin-right: auto;"
             class="rounded box-container-shadow">
 
@@ -142,7 +145,7 @@
                         <input id="G1Player2Input"></input>
                         <h2>=</h2>
                         <h2 id="G1Answer">ERROR</h2>
-                        <a id="G1Player2Submit" class="btn rwhite">Submitd</a>
+                        <a id="G1Player2Submit" class="btn rwhite">Submit</a>
                     </div>
                 </div>
             </div>
@@ -187,28 +190,38 @@
                     <div id="TutorialAnswer4" class="questionButton col rounded ml-5 box-container-shadow">
                         <h4 style="padding-top: 10px;">Answer 4</h4>
                     </div>
+                    <div></div>
                 </div>
             </div>
             <div id="WaitingText" style="display:none;">
                 <h1>Waiting on Other Player</h1>
-                <img style="width:75px"alt="LoadingGIF"src="https://c.tenor.com/On7kvXhzml4AAAAi/loading-gif.gif">
+                <img style="width:75px" alt="LoadingGIF" src="https://c.tenor.com/On7kvXhzml4AAAAi/loading-gif.gif">
             </div>
             <div id="WaitingText2" style="display:none;">
                 <h1>Loading...</h1>
             </div>
         </div>
     </div>
+    <div id="EndGame" style="display:none">
+        <h1 class="animate__animated animate__fadeInUp">Math CO-OP Game</h1>
+        <h4 class="animate__animated animate__fadeInUp"> by denny and johnny</h4>
+        <div style="height:200px;width:600px "class="box-container-shadow rounded center">
+            <h2 id="EndGameText">Something Here</h2>
+            <h4>Thanks for playing my math game <img style="width:35px"src="https://www.streamscheme.com/wp-content/uploads/2020/04/Pogchamp.png.webp"></h4>
+            <a id="ReloadGame" style="Color:white; width:300px" class="btn rred">Restart</a>
+        </div>
+    </div>
 
 
 
     <div style="padding:1%"> </div>
-    <div style="width:500px;height:200px"class="box-container-shadow center">
+    <div style="width:500px;height:200px" class="box-container-shadow rounded center">
         <br>
         <h1>Options/Other</h1>
-        <a id="PlayMusicButton" style="color:white"class="btn rblue">Play Music</a>
-        <a href="/wiki" style="color:white"class="btn rblue">Wiki</a>
-        <audio id="audioMusic"loop autoplay>
-            <source id="audioSource"src="TAYMSC.mp3" type="audio/mpeg">
+        <a id="PlayMusicButton" style="color:white" class="btn rblue">Play Music</a>
+        <a href="/wiki" style="color:white" class="btn rblue">Wiki</a>
+        <audio id="audioMusic" loop autoplay>
+            <source id="audioSource" src="TAYMSC.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
     </div>
@@ -219,229 +232,261 @@
         <h5 class="FootText">Dennisonung's Development Center - <a href="https://ddc.gg/policies.php">Privacy Policy</a>
             - This website is still a work in progress.</h5>
     </footer>
-        <script>
-            $(document).ready(function() {
-                $("#PlayMusicButton").click(function() {
-                    $("#audioMusic").volume = 0.5;
-                    $("#audioMusic").trigger('play');
-                    // $("audioSource").attr("src", "TAYMSC.mp3");
-                });
-            });
-
-            var socket = io("https://math.ddc.gg");
-            function Wait(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
-            }
-            function MRI1(length) {
-                var result = '';
-                var characters = '1234';
-                var charactersLength = characters.length;
-                for (var i = 0; i < length; i++) {
-                    result += characters.charAt(Math.floor(Math.random() *
-                        charactersLength));
-                }
-                return result;
-            }
-
-            $("#createLobby").click(function () {
-                var username = $("#CreateLobbyUSERNAME").val();
-                if (username == "") {
-                    alert("Please enter a username");
-                    return;
+    <script>
+        let audioActive = false;
+        $(document).ready(function () {
+            
+            $("#PlayMusicButton").click(function () {
+                $("#audioMusic").volume = 0.5;
+                if (audioActive) {
+                    $("#audioMusic").trigger('pause');;
+                    $("#PlayMusicButton").text("Play Music");
+                    audioActive = false;
                 } else {
-                    var GameInfo = {
-                        username: username
-                    };
-                    socket.emit("CreateGameLobby", GameInfo);
+                    $("#audioMusic").trigger('play');;
+                    $("#PlayMusicButton").text("Pause Music");
+                    audioActive = true;
                 }
+                // $("audioSource").attr("src", "TAYMSC.mp3");
+            });
+        });
 
-            });
+        var socket = io("https://math.ddc.gg");
+        function Wait(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        function MRI1(length) {
+            var result = '';
+            var characters = '1234';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() *
+                    charactersLength));
+            }
+            return result;
+        }
 
-            $("#JoinLobby").click(function () {
-                if ($("#CODE").val() == "" || $("#USERNAME").val() == "") {
-                    alert("Please fill in all fields");
-                } else {
-                    console.log("JoinLobby");
-                    socket.emit("JoinGameLobby", {
-                        Code: $("#CODE").val(),
-                        username: $("#USERNAME").val()
-                    });
+        $("#createLobby").click(function () {
+            var username = $("#CreateLobbyUSERNAME").val();
+            if (username == "") {
+                alert("Please enter a username");
+                return;
+            } else {
+                var GameInfo = {
+                    username: username
+                };
+                socket.emit("CreateGameLobby", GameInfo);
+            }
 
-                }
-            });
+        });
 
-            $("#StartGame").click(function () {
-                socket.emit("StartGame", {
-                    gameCode: $("#P2GameCode").text()
+        $("#JoinLobby").click(function () {
+            if ($("#CODE").val() == "" || $("#USERNAME").val() == "") {
+                alert("Please fill in all fields");
+            } else {
+                console.log("JoinLobby");
+                socket.emit("JoinGameLobby", {
+                    Code: $("#CODE").val(),
+                    username: $("#USERNAME").val()
                 });
-            });
 
-            $("#GAME2Answer1").click(function () {
-                socket.emit("submitAnswer", {
-                    gameCode: $("#P2GameCode").text(),
-                    answer: $("#GAME2Answer1").children("h4").text(),
-                    id: $("#QuestionID").text()
-                });
-                $("#GAME2").fadeOut();
-                $("#WaitingText").fadeIn();
+            }
+        });
 
+        $("#StartGame").click(function () {
+            socket.emit("StartGame", {
+                gameCode: $("#P2GameCode").text()
             });
-            $("#GAME2Answer2").click(function () {
-                socket.emit("submitAnswer", {
-                    gameCode: $("#P2GameCode").text(),
-                    answer: $("#GAME2Answer2").children("h4").text(),
-                    id: $("#QuestionID").text()
-                });
-                $("#GAME2").fadeOut();
-                $("#WaitingText").fadeIn();
-            });
-            $("#GAME2Answer3").click(function () {
-                socket.emit("submitAnswer", {
-                    gameCode: $("#P2GameCode").text(),
-                    answer: $("#GAME2Answer3").children("h4").text(),
-                    id: $("#QuestionID").text()
-                });
-                $("#GAME2").fadeOut();
-                $("#WaitingText").fadeIn();
-            });
-            $("#GAME2Answer4").click(function () {
-                socket.emit("submitAnswer", {
-                    gameCode: $("#P2GameCode").text(),
-                    answer: $("#GAME2Answer4").children("h4").text(),
-                    id: $("#QuestionID").text()
-                });
-                $("#GAME2").fadeOut();
-                $("#WaitingText").fadeIn();
-            });
+        });
 
-            $("#TutorialAnswer1").click(function () {
-                socket.emit("submitAnswer", {
-                    gameCode: $("#P2GameCode").text(),
-                    answer: $("#TutorialAnswer1").children("h4").text(),
-                    id: $("#QuestionID").text()
-                });
-                $("#Tutorial").hide();
-                $("#WaitingText").fadeIn();
+        $("#ReloadGame").click(function () {
+            window.location.reload();
+        });
+
+        $("#GAME2Answer1").click(function () {
+            socket.emit("submitAnswer", {
+                gameCode: $("#P2GameCode").text(),
+                answer: $("#GAME2Answer1").children("h4").text(),
+                id: $("#QuestionID").text()
             });
-            $("#TutorialAnswer2").click(function () {
-                socket.emit("submitAnswer", {
-                    gameCode: $("#P2GameCode").text(),
-                    answer: $("#TutorialAnswer2").children("h4").text(),
-                    id: $("#QuestionID").text()
-                });
-                $("#Tutorial").hide();
-                $("#WaitingText").fadeIn();
+            $("#GAME2").fadeOut();
+            $("#WaitingText").fadeIn();
+
+        });
+        $("#GAME2Answer2").click(function () {
+            socket.emit("submitAnswer", {
+                gameCode: $("#P2GameCode").text(),
+                answer: $("#GAME2Answer2").children("h4").text(),
+                id: $("#QuestionID").text()
             });
-            $("#TutorialAnswer3").click(function () {
-                socket.emit("submitAnswer", {
-                    gameCode: $("#P2GameCode").text(),
-                    answer: $("#TutorialAnswer3").children("h4").text(),
-                    id: $("#QuestionID").text()
-                });
-                $("#Tutorial").hide();
-                $("#WaitingText").fadeIn();
+            $("#GAME2").fadeOut();
+            $("#WaitingText").fadeIn();
+        });
+        $("#GAME2Answer3").click(function () {
+            socket.emit("submitAnswer", {
+                gameCode: $("#P2GameCode").text(),
+                answer: $("#GAME2Answer3").children("h4").text(),
+                id: $("#QuestionID").text()
             });
-            $("#TutorialAnswer4").click(function () {
-                socket.emit("submitAnswer", {
-                    gameCode: $("#P2GameCode").text(),
-                    answer: $("#TutorialAnswer4").children("h4").text(),
-                    id: $("#QuestionID").text()
-                });
-                $("#Tutorial").hide();
-                $("#WaitingText").fadeIn();
+            $("#GAME2").fadeOut();
+            $("#WaitingText").fadeIn();
+        });
+        $("#GAME2Answer4").click(function () {
+            socket.emit("submitAnswer", {
+                gameCode: $("#P2GameCode").text(),
+                answer: $("#GAME2Answer4").children("h4").text(),
+                id: $("#QuestionID").text()
             });
+            $("#GAME2").fadeOut();
+            $("#WaitingText").fadeIn();
+
+        });
+
+        $("#TutorialAnswer1").click(function () {
+            socket.emit("submitAnswer", {
+                gameCode: $("#P2GameCode").text(),
+                answer: $("#TutorialAnswer1").children("h4").text(),
+                id: $("#QuestionID").text()
+            });
+            $("#Tutorial").hide();
+            $("#WaitingText").fadeIn();
+        });
+        $("#TutorialAnswer2").click(function () {
+            socket.emit("submitAnswer", {
+                gameCode: $("#P2GameCode").text(),
+                answer: $("#TutorialAnswer2").children("h4").text(),
+                id: $("#QuestionID").text()
+            });
+            $("#Tutorial").hide();
+            $("#WaitingText").fadeIn();
+        });
+        $("#TutorialAnswer3").click(function () {
+            socket.emit("submitAnswer", {
+                gameCode: $("#P2GameCode").text(),
+                answer: $("#TutorialAnswer3").children("h4").text(),
+                id: $("#QuestionID").text()
+            });
+            $("#Tutorial").hide();
+            $("#WaitingText").fadeIn();
+        });
+        $("#TutorialAnswer4").click(function () {
+            socket.emit("submitAnswer", {
+                gameCode: $("#P2GameCode").text(),
+                answer: $("#TutorialAnswer4").children("h4").text(),
+                id: $("#QuestionID").text()
+            });
+            $("#Tutorial").hide();
+            $("#WaitingText").fadeIn();
+        });
 
 
-            socket.on("JoinedGameLobby", function (data) {
-                $("#StartLog").fadeOut();
+        socket.on("JoinedGameLobby", function (data) {
+            $("#StartLog").fadeOut(function () {
                 $("#Part2").fadeIn();
-                $("#P2GameCode").html(data.gameCode);
-                $("#P2Player1").html(data.Player1);
-                $("#P2Player2").html(data.Player2);
-                $("#Player1").text(data.Player1 + ": ");
-                $("#Player2").text(data.Player2 + ": ");
-            }) 
+            });
+            $("#P2GameCode").html(data.gameCode);
+            $("#P2Player1").html(data.Player1);
+            $("#P2Player2").html(data.Player2);
+            $("#Player1").text(data.Player1 + ": ");
+            $("#Player2").text(data.Player2 + ": ");
+        })
 
-            socket.on("CreatedGameLobby", function (data) {
-                $("#StartLog").fadeOut();
+        socket.on("CreatedGameLobby", function (data) {
+            $("#StartLog").fadeOut(function () {
                 $("#Part2").fadeIn();
-                $("#P2GameCode").html("Game Code: " + data.gameCode);
-                $("#P2Player1").html(data.Player1);
-                $("#P2Player2").html("Waiting for Player 2");
-            })
+            });
+            $("#P2GameCode").html("Game Code: " + data.gameCode);
+            $("#P2Player1").html(data.Player1);
+            $("#P2Player2").html("Waiting for Player 2");
+        })
 
-            socket.on("GameMaster", function (data) {
-                $("#GameMaster").fadeIn();
-            })
+        socket.on("GameMaster", function (data) {
+            $("#GameMaster").fadeIn();
+        })
 
-            socket.on("StartGameSuccess", function (data) {
-                $("#GameMaster").fadeOut();
-                $("#Part2").fadeOut();
+        socket.on("StartGameSuccess", function (data) {
+            $("#GameMaster").fadeOut();
+            $("#Part2").fadeOut(function () {
                 $("#game").fadeIn();
-                $("#gameRoundCounter").html("Round: " + data.round);
-                $("#GAME1").fadeOut();
-                $("GAME2").fadeIn();
-                $("#GAME2QuestionName").html(data.question);
-                $("#GAME2Answer1").html(data.answer1);
-                $("#GAME2Answer2").html(data.answer2);
-                $("#GAME2Answer3").html(data.answer3);
-                $("#GAME2Answer4").html(data.answer4);
-            })
+            });
+            $("#gameRoundCounter").html("Round: " + data.round);
+            $("#GAME1").fadeOut(function () { $("GAME2").fadeIn(); });
+            $("#GAME2QuestionName").html(data.question);
+            $("#GAME2Answer1").html(data.answer1);
+            $("#GAME2Answer2").html(data.answer2);
+            $("#GAME2Answer3").html(data.answer3);
+            $("#GAME2Answer4").html(data.answer4);
+        })
 
+        socket.on("EndGame", function (data) {
+            $("#audioMusic").trigger('play');
+            $("#PlayMusicButton").text("Pause Music");
+            audioActive = true;
+            $("#game").fadeOut(function () {
+                $("#EndGame").fadeIn();
+            });
+            if (data.P1Score == data.P2Score) {
+                $("#EndGameText").html("It's a tie!");
+            } else if (data.P1Score > data.P2Score) {
+                $("#EndGameText").html(data.P1 + " wins!");
+            } else {
+                $("#EndGameText").html(data.P2 + " wins!");
+            }
+        })
 
-            socket.on("NextGameRound", function (data) {
-                $("#gameRoundCounter").html("Round: " + data.round);
-                try {
+        socket.on("NextGameRound", function (data) {
+            $("#gameRoundCounter").html("Round: " + data.round);
+            $("#QuestionID").html(data.id);
+
+            try {
                 if (data.QuestionType == 1) {
                     $("#GAME2").fadeOut();
                     $("#GAME1").fadeIn();
                     $("#GAME1QuestionName").html(data.QuestionName);
                     $("#GAME1Answer1").html(data.Answer1);
                 } else if (data.QuestionType == 2) {
-                    $("#GAME1").fadeOut();
-                    $("#GAME2").fadeIn();
-                    $("#WaitingText").fadeOut();
+                    $("#GAME1").fadeOut(function () {
+                        $("#GAME2").fadeIn();
+                        $("#WaitingText").hide(); 
+                    });
+                    $("#WaitingText").hide(); 
                     $("#GAME2QuestionName").html(data.QuestionName);
                     $("#GAME2Answer1").children("h4").text(data.Answers[0]);
                     $("#GAME2Answer2").children("h4").text(data.Answers[1]);
                     $("#GAME2Answer3").children("h4").text(data.Answers[2]);
                     $("#GAME2Answer4").children("h4").text(data.Answers[3]);
-                    console.log(`Scores below \n Player1: ${data.Player1Score} \n Player2: ${data.Player2Score}` )
-                    $("Player1Score").text(data.Player1Score);
-                    $("Player2Score").text(data.Player2Score);
+                    console.log(`Scores below \n Player1: ${data.P1Score} \n Player2: ${data.P2Score}`)
+                    $("Player1Score").html(data.P1Score);
+                    $("Player2Score").html(data.P2Score);
+                    $("#WaitingText").hide(); 
 
-                } 
-                } catch(e) {
-                    $("#GAME1").fadeOut();
-                    $("#GAME2").fadeOut();
-                    alert("Something went wrong...")
-                    console.log(e);
                 }
-            })
+            } catch (e) {
+                $("#GAME1").fadeOut(function () { $("#GAME2").fadeOut(); });
+                alert("Something went wrong...")
+                console.log(e);
+            }
+        })
 
-            socket.on("TutorialQuestion", function (data) {
-
-                $("#QuestionID").html(data.id);
-                $("#WaitingText2").fadeIn();
-                Wait(500);
-                $("#WaitingText2").fadeOut();
-                $("#Tutorial").fadeIn();
-                $("#TutorialQuestion").html(data.QuestionName);
-                $("#TutorialAnswer1").children("h4").text(data.Answers[0]);
-                $("#TutorialAnswer2").children("h4").text(data.Answers[1]);
-                $("#TutorialAnswer3").children("h4").text(data.Answers[2]);
-                $("#TutorialAnswer4").children("h4").text(data.Answers[3]);
-            })
+        socket.on("TutorialQuestion", function (data) {
+            $("#QuestionID").html(data.id);
+            $("#WaitingText2").fadeIn(function () { $("#WaitingText2").fadeOut(); $("#Tutorial").fadeIn(); });
+            $("#TutorialQuestion").html(data.QuestionName);
+            $("#TutorialAnswer1").children("h4").text(data.Answers[0]);
+            $("#TutorialAnswer2").children("h4").text(data.Answers[1]);
+            $("#TutorialAnswer3").children("h4").text(data.Answers[2]);
+            $("#TutorialAnswer4").children("h4").text(data.Answers[3]);
+        })
 
 
-            socket.on("FullGame", function (data) {
-                alert("Game is full");
-            });
-            socket.on("Error", function (data) {
-                alert(data);
-            });
+        socket.on("FullGame", function (data) {
+            alert("Game is full");
+        });
+        socket.on("Error", function (data) {
+            alert(data);
+        });
 
-        </script>
+    </script>
 </body>
 
 </html>

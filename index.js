@@ -2,14 +2,26 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 
-const options = {
-    key: fs.readFileSync('certs/privkey.pem'),
-    cert: fs.readFileSync('certs/fullchain.pem')
-  };
-const http = require('https').createServer(options, app);
+const httpU = require('http');
+const httpsU = require('https');
 const cors = require('cors');
 var bodyParser = require('body-parser');
+let useHttps = true;
 
+if (!fs.existsSync("certs")) {
+	console.warn("Missing certs directory.");
+	useHttps = false;
+}
+
+let options = {};
+if (useHttps) {
+	options = {
+		key: fs.readFileSync("certs/privkey.pem"),
+		cert: fs.readFileSync("certs/fullchain.pem")
+	};
+}
+
+let http = useHttps ? httpsU.createServer(options, app) : httpU.createServer(app);
 
 app.use(cors())
 const io = require('socket.io')(http);
@@ -63,6 +75,10 @@ function MRI2(length) {
             charactersLength));
     }
     return result;
+}
+
+function Wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function WTLGC(gameCode, game) {
@@ -220,41 +236,62 @@ io.on('connection', (socket) => {
 
 
 
-    socket.on("submitAnswer", data => {
+    socket.on("submitAnswer", async (data) => {
         console.log("submitAnswer Function has started");
         try {
             var gameCode = data.gameCode;
             if (fs.existsSync("./Lobbys/" + gameCode + "/metadata.json")) {
                 var game = JSON.parse(fs.readFileSync("./Lobbys/" + gameCode + "/metadata.json"));
                 game.PlayedQuestions.push(data.id);
-                var FinishedQuestion = JSON.parse(fs.readFileSync("./questions/" + data.id + ".json"));
-                var NewQuestionNumber = ReRoll(game);
-                var NewQuestion = JSON.parse(fs.readFileSync("./questions/" + NewQuestionNumber + ".json"));
+                WTLGC(gameCode, game);
+                var FinishedQuestion = await JSON.parse(fs.readFileSync("./questions/" + data.id + ".json"));
+                var NewQuestionNumber = await ReRoll(game)
+                if (NewQuestionNumber == 0 || NewQuestionNumber == undefined) { NewQuestionNumber = 1}
+                var NewQuestion = await JSON.parse(fs.readFileSync("./questions/" + NewQuestionNumber + ".json"));
                 var NewQuestionPacket = {
                     "gameId": game.gameId,
                     "gameCode": game.gameCode,
+                    "round": game.CurrentRound,
                     "id": NewQuestionNumber,
                     "QuestionName": NewQuestion.QuestionName,
                     "QuestionType": NewQuestion.QuestionType,
                     "Answers": NewQuestion.Answers,
-                    "Player1Score": game.P1Score,
-                    "Player2Score": game.P2Score,
+                    "P1Score": game.P1Score,
+                    "P2Score": game.P2Score,
+                }
+                var EndGamePacket = {
+                    "gameId": game.gameId,
+                    "gameCode": game.gameCode,
+                    "P1Score": game.P1Score,
+                    "P2Score": game.P2Score,
+                    "P1": game.Player1,
+                    "P2": game.Player2,
                 }
                 if (socket.id == game.P1SocketID) {
                     if (FinishedQuestion.RightAnswer == data.answer) {
-                        game.P1Score += 1;
+                        game.P1Score++;
                         game.P1Answered = true;
                         game.P1Correct = true;
                         WTLGC(gameCode, game);
+                        NewQuestionPacket.Player1Score = game.P1Score;
                         if (game.P2Answered == true) {
                             game.P2Answered = false;
                             game.P2Correct = false;
                             game.P1Answered = false;
                             game.P1Correct = false;
+                            if(game.CurrentRound == 10){
+                                EndGamePacket.P1Score = game.P1Score;
+                                EndGamePacket.P2Score = game.P2Score;
+                                io.to(gameCode).emit('EndGame', EndGamePacket)
+                                return;
+                            }
+                            game.CurrentRound++;
                             WTLGC(gameCode, game);
-                            io.to(gameCode).emit('NextQuestion', NewQuestionPacket);
+                            NewQuestionPacket.round = game.CurrentRound;
+                            
+                            io.to(gameCode).emit('NextGameRound', NewQuestionPacket)
+            
                         }
-
                     } else {
                         game.P1Answered = true;
                         game.P1Correct = false;
@@ -264,8 +301,16 @@ io.on('connection', (socket) => {
                             game.P2Correct = false;
                             game.P1Answered = false;
                             game.P1Correct = false;
+                            if(game.CurrentRound == 10){
+                                EndGamePacket.P1Score = game.P1Score;
+                                EndGamePacket.P2Score = game.P2Score;
+                                io.to(gameCode).emit('EndGame', EndGamePacket)
+                                return;
+                            }
+                            game.CurrentRound++;
                             WTLGC(gameCode, game);
-                            io.to(gameCode).emit('NextQuestion', NewQuestionPacket);
+                            NewQuestionPacket.round = game.CurrentRound;
+                            io.to(gameCode).emit('NextGameRound', NewQuestionPacket)
                         }
                     }
                 } else if (socket.id == game.P2SocketID) {
@@ -274,12 +319,21 @@ io.on('connection', (socket) => {
                         game.P2Answered = true;
                         game.P2Correct = true;
                         WTLGC(gameCode, game);
+                        NewQuestionPacket.Player2Score = game.P2Score;
                         if (game.P1Answered == true) {
                             game.P2Answered = false;
                             game.P2Correct = false;
                             game.P1Answered = false;
                             game.P1Correct = false;
+                            if(game.CurrentRound == 10){
+                                EndGamePacket.P1Score = game.P1Score;
+                                EndGamePacket.P2Score = game.P2Score;
+                                io.to(gameCode).emit('EndGame', EndGamePacket)
+                                return;
+                            }
+                            game.CurrentRound++;
                             WTLGC(gameCode, game);
+                            NewQuestionPacket.round = game.CurrentRound;
                             io.to(gameCode).emit('NextGameRound', NewQuestionPacket);
                         }
                     } else {
@@ -291,7 +345,15 @@ io.on('connection', (socket) => {
                             game.P2Correct = false;
                             game.P1Answered = false;
                             game.P1Correct = false;
+                            if(game.CurrentRound == 10){
+                                EndGamePacket.P1Score = game.P1Score;
+                                EndGamePacket.P2Score = game.P2Score;
+                                io.to(gameCode).emit('EndGame', EndGamePacket)
+                                return;
+                            }
+                            game.CurrentRound++;
                             WTLGC(gameCode, game);
+                            NewQuestionPacket.round = game.CurrentRound;
                             io.to(gameCode).emit('NextGameRound', NewQuestionPacket);
                         }
                     }

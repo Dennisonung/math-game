@@ -1,6 +1,6 @@
 {
     "QuestionName": "Which of the following is a proper fraction?",
     "QuestionType":"2",
-    "Answers": ["13/4", "21/5", "4/3", "3/4"],  
+    "Answers": ["13/4", "3/4","21/5", "4/3"],  
     "RightAnswer": "3/4"
 }
