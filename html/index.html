@@ -252,10 +252,10 @@
             });
         });
         //For Production
-        //var socket = io("https://math.ddc.gg");
+        var socket = io("https://math.ddc.gg");
 
         //For Local
-        var socket = io("http://localhost:8085");
+        //var socket = io("http://localhost:8085");
         function Wait(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
