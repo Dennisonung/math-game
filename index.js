@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
+var bodyParser = require('body-parser')
 
 const httpU = require('http');
 const httpsU = require('https');
