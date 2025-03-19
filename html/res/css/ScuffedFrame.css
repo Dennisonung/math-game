@@ -1,0 +1,469 @@
+.bg-edark {
+    background-color: #000000 !important
+}
+
+.mySubmitButtonLol {
+    box-shadow: 3px 4px 0px 0px #8a2a21;
+    background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
+    background-color:#c62d1f;
+    border-radius:18px;
+    border:1px solid #d02718;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:27px;
+    padding:7px 25px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #810e05;
+}
+.mySubmitButtonLol:hover {
+    background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+    background-color:#f24437;
+}
+.mySubmitButtonLol:active {
+    position:relative;
+    top:1px;
+}
+
+/*
+Test button??
+ */
+
+.myButton2 {
+	box-shadow:inset 0px 1px 0px 0px #efdcfb;
+	background:linear-gradient(to bottom, #dfbdfa 5%, #bc80ea 100%);
+	background-color:#dfbdfa;
+	border-radius:6px;
+	border:1px solid #c584f3;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #9752cc;
+}
+.myButton2:hover {
+	background:linear-gradient(to bottom, #bc80ea 5%, #dfbdfa 100%);
+	background-color:#bc80ea;
+}
+.myButton2:active {
+	position:relative;
+	top:1px;
+}
+
+/*
+ _______  _______  _______  _______  _______
+(  ____ \(  ____ )(  ___  )(  ____ )(  ____ \
+| (    \/| (    )|| (   ) || (    )|| (    \/
+| |      | (____)|| (___) || (____)|| (__
+| | ____ |     __)|  ___  ||  _____)|  __)
+| | \_  )| (\ (   | (   ) || (      | (
+| (___) || ) \ \__| )   ( || )      | (____/\
+(_______)|/   \__/|/     \||/       (_______/
+                                             grape
+ */
+
+.btn.btn-grapevine {
+    border-radius: 0.1rem;
+    background-color: #ee5656;
+    border: 2px solid #ff5d5d;
+    color: #fff !important;
+    line-height: 32px;
+    padding: 0 1.4rem !important;
+    text-transform: uppercase;
+    font-family: "Roboto", sans-serif !important;
+}
+.btn.btn-grapevine.disabled {
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
+}
+.btn.btn-grapevine.disabled {
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
+    color: #FFFFFF !important;
+}
+.btn.btn-grapevine {
+    font-weight: normal;
+    font-size: .9em;
+}
+.btn.btn-grapevine:hover {
+    background-color: #fff;
+    border: 2px solid #ff0000;
+    color: #000000 !important;
+}
+
+/*
+home made blue fade button
+ */
+
+.btn.btn-bf-1.blue {
+    border-radius: 0.1rem;
+    background-color: #00bdd7;
+    border: 2px solid #ffffff;
+    color: #ffffff !important;
+    line-height: 32px;
+    padding: .25em 1.4em 0 1.4rem !important;
+    text-transform: uppercase;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.btn.btn-bf-1.blue:disabled {
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
+}
+
+.btn.btn-bf-1.blue.disabled {
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
+    color: #FFFFFF !important;
+}
+.btn.btn-bf-1.blue {
+    font-weight: normal;
+    font-size: .9em;
+}
+.btn.btn-bf-1.blue:hover {
+    background-color: #fff;
+    border: 2px solid #00bdd7;
+    color: #000000 !important;
+}
+
+/*
+home made green fade button
+ */
+
+.btn.btn-bf-1.green {
+    border-radius: 0.1rem;
+    background-color: #64ca5d;
+    border: 2px solid #ffffff;
+    color: #ffffff !important;
+    line-height: 32px;
+    padding: .25em 1.4em 0 1.4rem !important;
+    text-transform: uppercase;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.btn.btn-bf-1.green:disabled {
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
+}
+
+.btn.btn-bf-1.green.disabled {
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
+    color: #FFFFFF !important;
+}
+.btn.btn-bf-1.green {
+    font-weight: normal;
+    font-size: .9em;
+}
+.btn.btn-bf-1.green:hover {
+    background-color: #fff;
+    border: 2px solid #64ca5d;
+    color: #000000 !important;
+}
+
+/*
+homemade button yellow
+ */
+
+.btn.btn-bf-1.yellow {
+    border-radius: 0.1rem;
+    background-color: #d0d611;
+    border: 2px solid #ffffff;
+    color: #ffffff !important;
+    line-height: 32px;
+    padding: .25em 1.4em 0 1.4rem !important;
+    text-transform: uppercase;
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.btn.btn-bf-1.yellow:disabled {
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
+}
+
+.btn.btn-bf-1.yellow.disabled {
+    background-color: #CCCCCC;
+    border-color: #CCCCCC;
+    color: #FFFFFF !important;
+}
+.btn.btn-bf-1.yellow {
+    font-weight: normal;
+    font-size: .9em;
+}
+.btn.btn-bf-1.yellow:hover {
+    background-color: #fff;
+    border: 2px solid #d0d611;
+    color: #000000 !important;
+}
+
+.middle {
+	text-align: center;
+}
+
+/*
+really important template
+ */
+
+.bft {
+    line-height: 36px;
+    border-radius: 7px;
+    padding: .50em 1.5em 10px 2rem;
+}
+
+/*
+Fonts
+ */
+
+.jsans {
+    font-family: "Josefin Sans", sans-serif;
+}
+
+.jslab {
+    font-family: 'Josefin Slab', serif;
+}
+
+.roboto {
+    font-family: "Roboto", sans-serif;
+}
+
+.merriweather {
+    font-family: 'Merriweather Sans', sans-serif;
+}
+
+.nunito-font {
+    font-family: 'Nunito', sans-serif !important;
+}
+
+.opensanscondensed {
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.quicksand {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.pacifico {
+    font-family: 'Pacifico', cursive;
+}
+
+
+
+/*
+Colors (using the .bft template)
+ */
+
+.peachy {
+    background-color: #ffb4a2;
+    border: 2px solid #f77f00;
+    color: #ffffff;
+}
+
+.redandblack {
+    background-color: #92140C;
+    border: 2px solid #1E1E24;
+    color: #fffffc !important;
+}
+
+.redandblack:hover {
+    background-color: #92140C;
+    border: 2px solid #1E1E24;
+    color: #fffffc !important;
+}
+
+.darkmode {
+    background-color: #15616d;
+    border: 2px solid #001524;
+    color: #fffffc;
+}
+
+.bblue {
+    background-color: #fff;
+    border: 2px solid #00bdd7;
+    color: #000000 !important;
+}
+
+.redwhite {
+    background-color: #e63946;
+    border: 2px solid #f1faee;
+    color: #ffffff;
+}
+
+.pastel1 {
+    background-color: #a0c4ff;
+    border: 2px solid #9bf6ff;
+    color: #ffffff;
+}
+
+.bgreen {
+    background-color: #fff;
+    border: 2px solid #64ca5d;
+    color: #000000 !important;
+}
+
+.pinky {
+    background-color: #ffc6ff;
+    border: 2px solid #fffffc;
+    color: #fffffc;
+}
+
+
+.midnight {
+    background-color: #5e60ce;
+    border: 2px solid #6930c3;
+    color: #fffffc;
+}
+
+.oj {
+    background-color: #ffaa00;
+    border: 2px solid #fffffc;
+    color: #212529;
+}
+
+.chocoicecream {
+    background-color: #ffe6a7;
+    border: 2px solid #99582a;
+    color: #212529;
+}
+
+.cotton-candy {
+    background-color: #f15bb5;
+    border: 2px solid #00bbf9;
+    color: #fffffc;
+}
+
+.minty {
+    background-color: #adf7b6;
+    border: 2px solid #ffee93;
+    color: #fffffc;
+}
+
+.elephantoothpaste {
+    background-color: #e63946;
+    border: 2px solid #48cae4;
+    color: #fffffc;
+}
+
+.rwhite {
+    border: 2px solid #fffffc;
+    color: #fffffc !important;
+}
+
+.rwhite:hover {
+    background-color: #fffffc;
+    border: 2px solid #fffffc;
+    color: #212529 !important;
+}
+
+.rgreen {
+    border: 2px solid #72B01D;
+    color: #72B01D;
+}
+
+.rgreen:hover {
+    background-color: #72B01D;
+    border: 2px solid #72B01D;
+    color: #fffffc;
+}
+
+.rorangesoda {
+    border: 2px solid #F06449;
+    color: #F06449;
+}
+
+.rorangesoda:hover {
+    background-color: #F06449;
+    border: 2px solid #F06449;
+    color: #fffffc;
+}
+
+.rblack {
+    border: 2px solid #3c3c3c;
+    color: #3c3c3c;
+}
+
+.rblack:hover {
+    background-color: #3c3c3c;
+    border: 2px solid #3c3c3c;
+    color: #fffffc;
+}
+
+.rred {
+    border: 2px solid #F72C25;
+    color: #F72C25;
+}
+
+.rred:hover {
+    background-color: #F72C25;
+    border: 2px solid #F72C25;
+    color: #fffffc;
+}
+
+.rblue {
+    border: 2px solid #00bbf9;
+    color: #00bbf9;
+}
+
+.rblue:hover {
+    background-color: #00bbf9;
+    border: 2px solid #00bbf9;
+    color: #fffffc;
+}
+
+/*
+Font Stuff
+ */
+
+.font-size-23 {
+    font-size: 23px;
+}
+
+/*
+Weird Bug Fixes
+ */
+
+.trfix {
+    opacity: revert;
+}
+
+.embtn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.fade-in {
+    animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+
+.box-container-shadow {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.txc {
+    text-align: center;
+}

@@ -9,23 +9,23 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/index.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://ddc.gg/res/css/Bootstrap.min.css">
-    <link rel="stylesheet" href="https://ddc.gg/res/css/style.css">
-    <link rel="stylesheet" href="https://ddc.gg/res/css/ScuffedFrame.css">
-    <link rel="stylesheet" href="https://ddc.gg/res/css/animate.css">
+    <link rel="stylesheet" href="/res/css/Bootstrap.min.css">
+    <link rel="stylesheet" href="/res/css/style.css">
+    <link rel="stylesheet" href="/res/css/ScuffedFrame.css">
+    <link rel="stylesheet" href="/res/css/animate.css">
     <link rel="stylesheet" href="/index.css">
-    <link rel="stylesheet" href="https://ddc.gg/res/css/header.css">
-    <link rel="stylesheet" href="https://ddc.gg/res/css/navbar.css">
-    <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Header.css">
-    <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Footer.css">
-    <link rel="stylesheet" href="https://ddc.gg/res/css/DDCFrameWork/Extras.css">
+    <link rel="stylesheet" href="/res/css/header.css">
+    <link rel="stylesheet" href="/res/css/navbar.css">
+    <link rel="stylesheet" href="/res/css/DDCFrameWork/Header.css">
+    <link rel="stylesheet" href="/res/css/DDCFrameWork/Footer.css">
+    <link rel="stylesheet" href="/res/css/DDCFrameWork/Extras.css">
     <link rel="stylesheet" href="/animate.css">
-    <script src="https://ddc.gg/res/js/index.js"></script>
+    <script src="/res/js/index.js"></script>
     <script src="/socket.io/socket.io.js"> </script>
     <script src="/js/jquery.js"></script>
 
     <navbar class="top-container">
-        <a class="logo" href="https://ddc.gg/"><img class="logo-display" src="https://ddc.gg/res/img/ddclogonew.png"
+        <a class="logo" href="https://ddc.gg/"><img class="logo-display" src="/res/img/ddclogonew.png"
                 alt="logo"></a>
         <nav>
             <ul class="nav__links">
@@ -229,7 +229,7 @@
 
     <div style="padding:10%"> </div>
     <footer class="center" id="footer">
-        <img alt="DF Logo" class="center" src="https://ddc.gg/res/img/logowide-clear.png" style="width: 33%;">
+        <img alt="DF Logo" class="center" src="/res/img/logowide-clear.png" style="width: 33%;">
         <h5 class="FootText">Dennisonung's Development Center - <a href="https://ddc.gg/policies.php">Privacy Policy</a>
             - This website is still a work in progress.</h5>
     </footer>
@@ -252,10 +252,10 @@
             });
         });
         //For Production
-        var socket = io("https://math.ddc.gg");
+        //var socket = io("https://math.ddc.gg");
 
         //For Local
-        //var socket = io("http://localhost:8085");
+        var socket = io("http://localhost:8085");
         function Wait(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }

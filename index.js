@@ -32,6 +32,12 @@ var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(jsonParser)
 app.use(urlencodedParser)
+
+// allow Access-Control-Allow-Origin
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
 app.use(express.static(__dirname + '/html'));
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/html/index.html');
@@ -108,31 +114,27 @@ io.on('connection', (socket) => {
         console.log("JoinGameLobby function has Started");
         try {
             var gameCode = data.Code;
-            if (fs.existsSync("./Lobbys/" + gameCode + "/metadata.json")) {
-                var game = JSON.parse(fs.readFileSync("./Lobbys/" + gameCode + "/metadata.json"));
-                if (game.gameStatus == "Waiting") {
-                    if (game.Player2 == "") {
-                        game.gameStatus = "InProgress";
-                        game.Player2 = data.username;
-                        game.P2SocketID = socket.id; 
-                        var gamePacket = {
-                            "gameId": game.gameId,
-                            "gameCode": game.gameCode,
-                            "Player1": game.Player1,
-                            "Player2": data.username
-                        }
-                        io.to(game.P1SocketID).emit('GameMaster', gamePacket);
-                        WTLGC(game.gameCode, game);
-                        socket.join(gameCode);
-                        io.to(gameCode).emit('JoinedGameLobby', gamePacket);
-                        console.log("JoinGameLobby Function has Finished Successfully");
-                    } else {
-                        socket.emit('FullGame', "Game is full");
-                    }
-                } else {
-                    socket.emit('Error', "Game is in progress");
-                }
+            if (!fs.existsSync("./Lobbys/" + gameCode + "/metadata.json")) return socket.emit('Error', "Game does not exist");
+            let  game = JSON.parse(fs.readFileSync("./Lobbys/" + gameCode + "/metadata.json"));
+
+            if (game.gameStatus != "Waiting") return socket.emit('Error', "Game is in progress");
+            if (game.Player2 != "") return socket.emit('Error', "Game is full");
+
+            game.gameStatus = "InProgress";
+            game.Player2 = data.username;
+            game.P2SocketID = socket.id; 
+            var gamePacket = {
+                "gameId": game.gameId,
+                "gameCode": game.gameCode,
+                "Player1": game.Player1,
+                "Player2": data.username
             }
+            io.to(game.P1SocketID).emit('GameMaster', gamePacket);
+            WTLGC(game.gameCode, game);
+            socket.join(gameCode);
+            io.to(gameCode).emit('JoinedGameLobby', gamePacket);
+            console.log("JoinGameLobby Function has Finished Successfully");
+        
         } catch (err) {
             console.log(err)
             socket.emit("Error", "Internal Server Error")
@@ -172,7 +174,12 @@ io.on('connection', (socket) => {
             var gameId = game.gameId;
             game.Player1 = data.username;
             var options = { dotfiles: 'deny', headers: { 'x-sent': true } };
+
+            if (!fs.existsSync("./Lobbys/")) {
+                fs.mkdirSync("./Lobbys/");
+            }
             fs.mkdirSync("./Lobbys/" + gameCode);
+
             WTLGC(gameCode, game);
             socket.join(gameCode);
             socket.emit('CreatedGameLobby', gamePacket);
